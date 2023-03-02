@@ -29,6 +29,10 @@ def get_date(reg_date)
   Date.strptime(reg_date.split(' ').first, '%m/%d/%y').wday
 end
 
+def day_name (number)
+  %w[Sunday Monday Tuesday Wednesday Thursday Friday Saturday][number]
+end
+
 puts 'EventManager initialized.'
 
 contents = CSV.open(
@@ -37,8 +41,8 @@ contents = CSV.open(
   header_converters: :symbol
 )
 
-hours = []
-days = []
+hours = [] # HACK
+days = []  # HACK
 contents.each do |col|
   # name = col[:first_name]
   # zipcode = clean_zicode(col[:zipcode])
@@ -47,12 +51,11 @@ contents.each do |col|
   days << get_date(col[:regdate])
   # puts "#{name} #{zipcode} #{phone}"
 end
-peak = []
-hours.tally.each { |k, v| peak << k if v == hours.tally.values.max }
+peak = []                                                            # HACK
+hours.tally.each { |k, v| peak << k if v == hours.tally.values.max } # HACK
 # puts "peak hours = #{peak}"
 
-better_days = []
-days.tally.each { |k, v| better_days << k if v == days.tally.values.max }
+better_days = []                                                          # HACK
+days.tally.each { |k, v| better_days << k if v == days.tally.values.max } # HACK
 
-puts "most people register on #{better_days}"
-
+puts "most people register on #{day_name(better_days.first)}"
