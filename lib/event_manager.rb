@@ -25,9 +25,9 @@ def get_hour(reg_date)
   DateTime.strptime(reg_date, '%m/%d/%y %H:%M').hour
 end
 
-# def clean_date(reg_date)
-#   Date.strptime(reg_date.split(' ').first, '%m/%d/%y').wday
-# end
+def get_date(reg_date)
+  Date.strptime(reg_date.split(' ').first, '%m/%d/%y').wday
+end
 
 puts 'EventManager initialized.'
 
@@ -38,15 +38,21 @@ contents = CSV.open(
 )
 
 hours = []
+days = []
 contents.each do |col|
   # name = col[:first_name]
   # zipcode = clean_zicode(col[:zipcode])
   # phone = clean_phone(col[:homephone])
   hours << get_hour(col[:regdate])
-
+  days << get_date(col[:regdate])
   # puts "#{name} #{zipcode} #{phone}"
 end
 peak = []
 hours.tally.each { |k, v| peak << k if v == hours.tally.values.max }
+# puts "peak hours = #{peak}"
 
-puts "peak hours = #{peak}"
+better_days = []
+days.tally.each { |k, v| better_days << k if v == days.tally.values.max }
+
+puts "most people register on #{better_days}"
+
